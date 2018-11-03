@@ -15,7 +15,7 @@ use hdk::{
 };
 use std::{
     collections::HashSet,
-    iter::FromIterator;
+    iter::FromIterator,
 };
 
 // convert T-iterator to T-set
@@ -41,7 +41,7 @@ pub fn get_self_hash() -> HashString {
 pub fn get(input : HashString, query : String) -> Vec<HashString> {
     let raw = hdk::get_links(input, query);
     let proc = match raw{
-        Ok(raw_) => raw_;
+        Ok(raw_) => raw_,
         Err(hdk_error) => {},
     };
     let mut list: Vec<HashString> = Vec::with_capacity(proc.links.len());
@@ -63,7 +63,7 @@ pub fn boost_get(input : HashString, query : String,
         let (target, tag) = sq;
         for e in res_list { // iterate over list, not set
            let r = get(e, tag); 
-           if (r != e) res_set.remove(e); // remove from set
+           if (r != e) { res_set.remove(e); } // remove from set
         };
     } 
     let res = vector(res_set);
@@ -79,8 +79,8 @@ pub fn get_desc(hash : HashString) -> T {
         Ok(Some(desc)) => desc,
         Ok(None) =>  {}, // container at hash address is empty 
         Err(_) => {}, // hash was not a valid address 
-    }
-    return desc;
+    };
+    return desc_;
 }
 
 // vec is a singleton, or should be
@@ -89,7 +89,7 @@ pub fn singleton(list : Vec<T>) -> T {
 }
 
 // create delegation between to-agent, from-agent, decision
-pub fn push_decision(decision : HashString, agent : HashString) -> || {
+pub fn push_decision(decision : HashString, agent : HashString) -> () {
     let delegation = HashString::new(); // make new hash
     let link_from_del = hdk::link_entries(
         get_self_hash(),
@@ -136,7 +136,7 @@ pub fn get_decisions() ->  Vec::HashString {
 }
 
 // get agent you gave vote to on decision 
-pub get_sent_agent(decision : HashString) ->  HashString {
+pub fn get_sent_agent(decision : HashString) ->  HashString {
     // list of pairs of a HashString target and String tag (backwards)
     let specific_queries : Vec<(HashString, String)> = Vec::new();
     specific_queries.push((decision, "del->dec"));
@@ -148,7 +148,7 @@ pub get_sent_agent(decision : HashString) ->  HashString {
 }
 
 // get agents that gave votes to you on decision
-pub get_recv_agent(decision : HashString) ->  HashString {
+pub fn get_recv_agent(decision : HashString) ->  HashString {
     // list of pairs of a HashString target and String tag (backwards)
     let specific_queries : Vec<(HashString, String)> = Vec::new();
     specific_queries.push((decision, "del->dec"));
@@ -160,13 +160,13 @@ pub get_recv_agent(decision : HashString) ->  HashString {
 }
 
 // get number of agents that gave votes to you on decision
-pub get_vote_weight(decision : HashString) -> u32 {
+pub fn get_vote_weight(decision : HashString) -> u32 {
     let vec = get_recv_agent(decision);
     return vec.len();
 }
 
 // get decision info
-pub get_dec_desc(decision : HashString) -> String {
+pub fn get_dec_desc(decision : HashString) -> String {
     let str = get(decision, "description");
     // maybe more complex
     return str;
