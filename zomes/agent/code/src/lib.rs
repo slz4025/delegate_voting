@@ -1,3 +1,6 @@
+// move Description to central
+// fix genesis error
+
 #[macro_use]
 extern crate hdk;
 extern crate serde;
@@ -61,7 +64,7 @@ pub fn boost_get(input : &HashString, query : &str,
         let (target, tag) = sq;
         for e in res_list { // iterate over list, not set
            let r = get(e, tag); 
-           if r != e { res_set.remove(e); } // remove from set
+           if r.eq(e) { res_set.remove(e); } // remove from set
         };
     } 
     let res = vector::<HashString>(res_set);
@@ -192,11 +195,13 @@ hdk::define_zome! {
     ]
 
     genesis: || {
+        /*
         let link_result = hdk::link_entries(
             hdk::DNA_HASH, 
             &HashString::from(hdk::AGENT_ADDRESS.to_string()),
             "has agent"
         );
+        */
 
         Ok(())
     }
