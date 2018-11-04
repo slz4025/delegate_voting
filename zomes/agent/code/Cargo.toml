@@ -9,6 +9,7 @@
   serde_derive = "1.0"
   hdk = { git = "https://github.com/holochain/holochain-rust" , branch = "develop" }
   holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , branch = "develop" }
+  difcommon = { path = "../../common" }
 [lib]
   path = "src/lib.rs"
   crate-type = ["cdylib"]

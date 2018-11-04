@@ -8,14 +8,16 @@ const app = Container.loadAndInstantiate("dist/bundle.json")
 // activate the new instance
 app.start()
 
-test('description of example test', (t) => {
+test('create a decision', (t) => {
   // indicates the number of assertions that follow
   t.plan(1)
-
+  const input = JSON.stringify({
+    message : "What should our first decision be?"
+  });
   // Make a call to a Zome function
   // indicating the capability and function, and passing it an input
-  const result = app.call("zome-name", "capability-name", "function-name", "input-data")
+  const result = app.call("master", "main", "create_decision", input)
 
   // check for equality of the actual and expected results
-    t.equal(result, "Error calling zome function: InternalFailure(Dna(ZomeNotFound(\"Zome \\\'zome-name\\\' not found\")))")
+    t.equal(result, true) // decision created
 })
